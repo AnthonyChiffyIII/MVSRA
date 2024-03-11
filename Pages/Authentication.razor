@@ -1,0 +1,22 @@
+﻿@page "/authentication/{action}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.Extensions.Configuration
+
+@inject NavigationManager Navigation
+@inject IConfiguration Configuration
+
+<RemoteAuthenticatorView Action="@Action">
+    <LogOut>
+        @{
+            IConfigurationSection authSection = Configuration.GetSection("Auth0");
+            string authority = authSection.GetValue<string>("Authority") ?? throw new NullReferenceException("No Autho0 Authority has been configured");
+            string clientId = authSection.GetValue<string>("ClientId") ?? throw new NullReferenceException("No Autho0 ClientId has been configured");
+
+            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
+        }
+    </LogOut>
+</RemoteAuthenticatorView>
+
+@code{
+    [Parameter] public string Action { get; set; } = null!;
+}
