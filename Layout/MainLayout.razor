@@ -1,17 +1,35 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
+﻿@using MudBlazor
+@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudImage Class="pa-2" Src="icon-250.png" Alt="MVSRA" ObjectFit="ObjectFit.ScaleDown" Style="height: var(--mud-appbar-height);" />
+        <MudText Typo="Typo.subtitle1">Mohawk Valley Soccer Referee Association</MudText>
+        <MudSpacer />
+        <LoginDisplay />
+        <MudFab Class="ma-4" Color="Color.Secondary" Href="https://www.facebook.com/mvsra.org/" StartIcon="@Icons.Custom.Brands.Facebook" Label="Check Us Out On Facebook!" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
-        </article>
-    </main>
-</div>
+            <Footer />
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

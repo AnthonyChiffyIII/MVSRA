@@ -3,15 +3,15 @@
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity?.Name!
-        <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
+        <MudText Typo="Typo.subtitle1">Hello, @context.User.Identity?.Name!</MudText>
+        <MudButton Class="ma-4" Variant="Variant.Outlined" Color="Color.Secondary" OnClick="BeginLogOut">Log out</MudButton>
     </Authorized>
     <NotAuthorized>
-        <a href="authentication/login">Log in</a>
+        <MudLink Class="ma-4" Typo="Typo.subtitle1" Color="Color.Secondary" href="authentication/login">Log in</MudLink>
     </NotAuthorized>
 </AuthorizeView>
 
-@code{
+@code {
     public void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");
