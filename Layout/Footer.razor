@@ -1,5 +1,25 @@
-﻿<h3>Footer</h3>
-
-@code {
-
-}
+﻿<MudContainer Fixed="true" MaxWidth="MaxWidth.False" Style="background-color: var(--mud-palette-appbar-background)">
+    <MudStack Justify="Justify.SpaceEvenly" AlignItems="AlignItems.Center" Row="true">
+        <MudImage Class="pa-2" Src="icon-250.png" Alt="MVSRA" ObjectFit="ObjectFit.ScaleDown" />
+        <MudStack Class="ma-4">
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/about">About MVSRA</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/history">History</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/officers">Officers</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/sponsors-and-partners">Sponsors & Partners</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/jobs">Jobs</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/contact-us">Contact Us</MudLink>
+        </MudStack>                                                             
+        <MudStack Class="ma-4">                                                
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/rules">Laws Of The Game</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/mentoring">Mentorship Opportunities</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/members">Organization Members</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="https://www.ussoccer.com/federation-services">Federation Services</MudLink>
+            <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="https://www.ussoccer.com/brand-protection">Brand Protection</MudLink>
+        </MudStack>                                                             
+        <MudStack Class="ma-4">                                                
+            <MudFab Class="ma-4" Color="Color.Secondary" Href="https://www.facebook.com/mvsra.org/" StartIcon="@Icons.Custom.Brands.Facebook" Label="Check Us Out On Facebook!" />
+            <MudFab Class="ma-4" Color="Color.Secondary" Href="https://www.twitch.tv/masl_soccer/schedule" StartIcon="@Icons.Material.Filled.LiveTv" Label="Watch MASL Soccer!" />
+        </MudStack>
+        <ImageCarousal />
+    </MudStack>
+</MudContainer>
