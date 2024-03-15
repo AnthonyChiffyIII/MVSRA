@@ -1,5 +1,39 @@
-﻿<h3>ImageCarousal</h3>
+﻿<MudCarousel @ref="_carousel" @bind-SelectedIndex="selectedIndex" ItemsSource="@_source"
+             Class="mud-width-full" Style="height:100%;"
+             ShowArrows="true" EnableSwipeGesture="true"
+             ShowBullets="false" BulletsColor="@Color"
+             AutoCycle="true" AutoCycleTime="TimeSpan.FromSeconds(4)">
+    <ItemTemplate>
+        <div class="d-flex flex-column flex-column justify-center" style="height: max-content;">
+            <MudIcon Class="mx-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+            <MudText Color="@Color" Align="@Align.Center" Class="mx-auto">@context</MudText>
+        </div>
+    </ItemTemplate>
+</MudCarousel>
 
 @code {
+    [Parameter]
+    public MudBlazor.Color Color { get; set; }
 
+    private MudCarousel<string> _carousel = null!;
+
+    private IList<string> _source = new List<string>() { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+    private int selectedIndex = 2;
+
+    private async Task AddAsync()
+    {
+        _source.Add($"Item {_source.Count + 1}");
+        await Task.Delay(1);
+        _carousel.MoveTo(_source.Count - 1);
+    }
+
+    private async Task DeleteAsync(int index)
+    {
+        if (_source.Any())
+        {
+            _source.RemoveAt(index);
+            await Task.Delay(1);
+            _carousel.MoveTo(System.Math.Max(System.Math.Min(index, _source.Count - 1), 0));
+        }
+    }
 }
