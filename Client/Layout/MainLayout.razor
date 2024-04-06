@@ -1,0 +1,57 @@
+﻿@using MVSRA.Layout
+@using MudBlazor
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="@MVSRATheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudImage Class="pa-2" Src="icon-250.png" Alt="MVSRA" ObjectFit="ObjectFit.ScaleDown" Style="height: var(--mud-appbar-height);" />
+        <MudText Typo="Typo.subtitle1">Mohawk Valley Soccer Referee Association</MudText>
+        <MudSpacer />
+        <LoginDisplay />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        <MudPaper Width="100%" Height="100%">
+            <MudContainer MaxWidth="MaxWidth.Medium">
+                @Body
+            </MudContainer>
+            <Footer />
+        </MudPaper>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = false;
+
+    MudTheme MVSRATheme = new()
+        {
+            Palette = new()
+            {
+                AppbarBackground = "#000000",
+                AppbarText = "#FFCC33",
+                DrawerBackground = "#000000",
+                Primary = "#FFFBFC",
+                Secondary = "#FFCC33"
+            },
+            PaletteDark = new()
+            {
+                AppbarBackground = "#000000",
+                AppbarText = "#FFCC33",
+                DrawerBackground = "#000000",
+                Primary = "#FFFBFC",
+                Secondary = "#FFCC33"
+            }
+        };
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
