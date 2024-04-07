@@ -6,6 +6,7 @@ using MVSRA.Server.Modules;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add Services
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PhotoRepository>();
 
@@ -29,6 +30,8 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
