@@ -19,4 +19,12 @@ public class Photo
     public DateTime UploadDate { get; set; } = DateTime.Now;
 
     public string UploadedBy { get; set; } = "Anonymous";
+
+    public Photo()
+    {
+        Caption ??= string.Empty;
+        FileType ??= string.Empty;
+        UploadedBy ??= string.Empty;
+        Data ??= [];
+    }
 }

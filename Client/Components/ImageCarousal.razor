@@ -29,6 +29,11 @@
 
     private string GetImageData(Photo photo)
     {
+        if (photo.Data is null)
+        {
+            return string.Empty;
+        }
+
         string imageSrc = Convert.ToBase64String(photo.Data);
         string imageUrl = string.Format("data: {0};base64, {1}", photo.FileType, imageSrc);
 

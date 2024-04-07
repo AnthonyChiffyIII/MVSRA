@@ -105,6 +105,9 @@
             await PhotoRepo.UploadPhotos(_images);
             await table.ReloadServerData();
 
+            _fileNames.Clear();
+            _images.Clear();
+
             Snackbar.Add("Images have been uploaded!");
         }
         catch (Exception ex)

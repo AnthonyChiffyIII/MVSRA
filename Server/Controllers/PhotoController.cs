@@ -17,7 +17,7 @@ public class PhotoController(PhotoRepository photoRepository) : Controller
         await _photoRepository.UploadPhotos(photos);
     }
 
-    [HttpPost("/Delete")]
+    [HttpPost("Delete")]
     public async Task DeletePhoto(Photo photo)
     {
         await _photoRepository.DeletePhoto(photo);
@@ -29,7 +29,7 @@ public class PhotoController(PhotoRepository photoRepository) : Controller
         return await _photoRepository.GetPhotos(take);
     }
 
-    [HttpPost("/Query")]
+    [HttpPost("Query")]
     public async Task<List<Photo>> QueryPhotos(QueryPhotosContent queryPhotosContent)
     {
         return await _photoRepository.QueryPhotos(queryPhotosContent.SearchParameter, queryPhotosContent.State);
