@@ -1,11 +1,29 @@
-using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using MVSRA.Server.EFContext;
+using MVSRA.Server.Modules;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// Add Services
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddScoped<PhotoRepository>();
 
-var app = builder.Build();
+// Add Database
+builder.Services.AddDbContextFactory<MVSRAContext>(options =>
+{
+    string? connectionString = builder.Configuration.GetConnectionString("Database");
+    if (connectionString is not null)
+    {
+        options.UseSqlServer(
+            connectionString,
+            builder => builder.MigrationsAssembly("MVSRA.Server")
+                .MigrationsHistoryTable(HistoryRepository.DefaultTableName, "MVSRA")
+        );
+    }
+});
+
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -14,7 +32,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -24,7 +41,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 

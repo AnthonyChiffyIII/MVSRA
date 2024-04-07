@@ -1,63 +1,81 @@
-﻿using MVSRA.EFContext;
-using MVSRA.EFModels;
-using Microsoft.EntityFrameworkCore;
-using MudBlazor;
+﻿using MudBlazor;
+using MVSRA.Shared.EFModels;
+using MVSRA.Shared.Models;
+using MVSRA.Shared.Modules;
+using System.Text;
+using System.Text.Json;
 
-namespace MVSRA.Modules;
+namespace MVSRA.Client.Modules;
 
-public class PhotoRepository(IDbContextFactory<MVSRAContext> contextFactory)
+public class PhotoRepository(HttpClient httpClient) : IPhotoRepository
 {
-    private readonly IDbContextFactory<MVSRAContext> _contextFactory = contextFactory;
+    private readonly HttpClient _httpClient = httpClient;
 
     public async Task UploadPhotos(List<Photo> photos)
     {
-        using MVSRAContext context = await _contextFactory.CreateDbContextAsync();
+        string content = JsonSerializer.Serialize(photos);
+        byte[] buffer = Encoding.UTF8.GetBytes(content);
+        ByteArrayContent byteContent = new(buffer);
+        byteContent.Headers.ContentType = new("application/json");
 
-        context.Photos.AddRange(photos);
-        await context.SaveChangesAsync();
+        HttpResponseMessage response = await _httpClient.PostAsync("/api/Photo", byteContent);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error getting photos: {response.StatusCode}");
+        }
     }
 
     public async Task DeletePhoto(Photo photo)
     {
-        using MVSRAContext context = await _contextFactory.CreateDbContextAsync();
+        string content = JsonSerializer.Serialize(photo);
+        byte[] buffer = Encoding.UTF8.GetBytes(content);
+        ByteArrayContent byteContent = new(buffer);
+        byteContent.Headers.ContentType = new("application/json");
 
-        context.Photos.Remove(photo);
-        await context.SaveChangesAsync();
+        HttpResponseMessage response = await _httpClient.PostAsync("/api/Photo/Delete", byteContent);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error getting photos: {response.StatusCode}");
+        }
     }
 
     public async Task<List<Photo>> GetPhotos(int take)
     {
-        using MVSRAContext context = await _contextFactory.CreateDbContextAsync();
+        HttpResponseMessage response = await _httpClient.GetAsync($"/api/Photo/{take}");
 
-        return await context.Photos.Take(take).ToListAsync();
+        if (response.IsSuccessStatusCode)
+        {
+            string content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Photo>>(content) ?? [];
+        }
+        else
+        {
+            // Handle unsuccessful response (e.g., log error)
+            throw new Exception($"Error getting photos: {response.StatusCode}");
+        }
     }
 
     public async Task<List<Photo>> QueryPhotos(string searchString, TableState state)
     {
-        using MVSRAContext context = await _contextFactory.CreateDbContextAsync();
+        QueryPhotosContent queryPhotoContent = new(searchString, state);
+        string content = JsonSerializer.Serialize(queryPhotoContent);
+        byte[] buffer = Encoding.UTF8.GetBytes(content);
+        ByteArrayContent byteContent = new(buffer);
+        byteContent.Headers.ContentType = new("application/json");
 
-        IQueryable<Photo> query = context.Photos.AsQueryable();
+        HttpResponseMessage response = await _httpClient.PostAsync("/api/Photo/Query", byteContent);
 
-        if (searchString != null)
+        if (response.IsSuccessStatusCode)
         {
-            query = context.Photos
-                .Where(x => x.Caption != null && x.Caption.Contains(searchString))
-                .AsQueryable();
+            string responseContent = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Photo>>(responseContent) ?? [];
         }
-
-        switch (state.SortLabel)
+        else
         {
-            case "caption_field":
-                query = query.OrderByDirection(state.SortDirection, o => o.Caption);
-                break;
-            case "upload_date_field":
-                query = query.OrderByDirection(state.SortDirection, o => o.UploadDate);
-                break;
-            case "uploader_field":
-                query = query.OrderByDirection(state.SortDirection, o => o.UploadedBy);
-                break;
+            // Handle unsuccessful response (e.g., log error)
+            throw new Exception($"Error getting photos: {response.StatusCode}");
         }
-
-        return await query.Skip(state.Page * state.PageSize).Take(state.PageSize).ToListAsync();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MVSRA.EFModels;
+namespace MVSRA.Shared.EFModels;
 
 [Table("PhotoGallery")]
 public class Photo
