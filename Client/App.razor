@@ -15,18 +15,19 @@
                         }
                         else
                         {
-                            <p role="alert">You are not authorized to access this resource.</p>
+                            <MudPaper Elevation="0" Height="500px">
+                                <MudText role="alert" Typo="Typo.h5">You are not authorized to access this resource.</MudText>
+                            </MudPaper>
                         }
                     </MudPaper>
                 </NotAuthorized>
             </AuthorizeRouteView>
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
                 <MudPaper Elevation="0" Height="500px">
-                    <p role="alert">Sorry, there's nothing at this address.</p>
+                    <MudText role="alert" Typo="Typo.h5">Sorry, there's nothing at this address.</MudText>
                 </MudPaper>
             </LayoutView>
         </NotFound>

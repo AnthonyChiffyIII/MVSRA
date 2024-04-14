@@ -68,11 +68,10 @@
     private readonly List<string> _fileNames = new();
     private readonly List<Photo> _images = new();
 
-    private IEnumerable<Photo> pagedData;
-    private MudTable<Photo> table;
+    private MudTable<Photo> table = null!;
 
     private int totalItems;
-    private string searchString = null;
+    private string searchString = string.Empty;
 
     #region AsyncMethods
     private async Task Clear()
@@ -110,7 +109,7 @@
 
             Snackbar.Add("Images have been uploaded!");
         }
-        catch (Exception ex)
+        catch
         {
             Snackbar.Add("Failed to upload images!", Severity.Error);
         }
@@ -146,7 +145,7 @@
 
             Snackbar.Add("Images have been deleted!");
         }
-        catch (Exception ex)
+        catch
         {
             Snackbar.Add("Failed to delete images!", Severity.Error);
         }
