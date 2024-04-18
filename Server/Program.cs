@@ -30,13 +30,14 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 else
 {
     app.UseHsts();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
@@ -45,6 +46,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapControllers();
+app.MapSwagger();
 app.MapFallbackToFile("index.html");
 
 app.Run();
