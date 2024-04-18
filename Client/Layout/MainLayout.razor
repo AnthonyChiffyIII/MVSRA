@@ -18,12 +18,12 @@
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
-        <MudPaper Width="100%" Height="100%">
+        <MudPaper Width="100%" Height="100%" MinHeight="500px">
             <MudContainer MaxWidth="MaxWidth.Medium">
                 @Body
             </MudContainer>
-            <Footer />
         </MudPaper>
+        <Footer />
     </MudMainContent>
 </MudLayout>
 
@@ -38,7 +38,8 @@
                 AppbarText = "#FFCC33",
                 DrawerBackground = "#000000",
                 Primary = "#FFFBFC",
-                Secondary = "#FFCC33"
+                Secondary = "#FFCC33",
+                Background = "000000"
             },
             PaletteDark = new()
             {
@@ -46,7 +47,8 @@
                 AppbarText = "#FFCC33",
                 DrawerBackground = "#000000",
                 Primary = "#FFFBFC",
-                Secondary = "#FFCC33"
+                Secondary = "#FFCC33",
+                Background = "000000"
             }
         };
 
