@@ -30,14 +30,14 @@
     }
   },
   "iisExpress": {
-    "applicationUrl": "http://localhost:8562",
+    "applicationUrl": "https://localhost:433/",
     "sslPort": 44368
   },
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:60821/",
+      "applicationUrl": "https://localhost:433/",
       "sslPort": 44372
     }
   }

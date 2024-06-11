@@ -6,9 +6,11 @@ using MVSRA.Server.Modules;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add Services
-builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<PhotoRepository>();
+builder.Services.AddSwaggerGen();
 
 // Add Database
 builder.Services.AddDbContextFactory<MVSRAContext>(options =>
@@ -37,16 +39,24 @@ else
 }
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
+    c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "MVSRA API");
+
+});
 
 app.UseHttpsRedirection();
+
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
+app.UseAuthorization();
+
 app.UseRouting();
 
+app.MapRazorPages();
 app.MapControllers();
-app.MapSwagger();
 app.MapFallbackToFile("index.html");
 
 app.Run();
