@@ -3,32 +3,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVSRA.Shared.EFModels;
 
-[Table("PhotoGallery")]
-public class Photo
+[Table("HotInformation")]
+public class HotInfo
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    [Required]
     [StringLength(200)]
-    public string? Caption { get; set; }
+    public string News { get; set; }
 
-    public byte[] Data { get; set; } = null!;
-
-    [StringLength(100)]
-    public string FileType { get; set; } = "image/jpeg";
+    [Required]
+    public DateTime ExpirationDate { get; set; } = DateTime.Now.AddDays(90);
 
     public DateTime UploadDate { get; set; } = DateTime.Now;
 
     [StringLength(200)]
     public string UploadedBy { get; set; } = "Anonymous";
 
-    public Photo()
+    public HotInfo()
     {
-        Caption ??= string.Empty;
-        FileType ??= string.Empty;
+        News = string.Empty;
         UploadedBy ??= string.Empty;
-        Data ??= [];
     }
-
-    public virtual List<Location> Locations { get; set; } = [];
 }

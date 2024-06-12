@@ -7,13 +7,7 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudImage Class="pa-2" Src="icon-250.png" Alt="MVSRA" ObjectFit="ObjectFit.ScaleDown" Style="height: var(--mud-appbar-height);" />
-        <MudText Typo="Typo.subtitle1">Mohawk Valley Soccer Referee Association</MudText>
-        <MudSpacer />
-        <LoginDisplay />
-    </MudAppBar>
+    <Header @bind-DrawerOpen="@_drawerOpen" />
     <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu />
     </MudDrawer>
@@ -51,9 +45,4 @@
                 Background = "000000"
             }
         };
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
 }

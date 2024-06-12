@@ -3,7 +3,9 @@
 
 <AuthorizeView>
     <Authorized>
-        <MudText Typo="Typo.subtitle1">Hello, @context.User.Identity?.Name!</MudText>
+        <MudHidden Breakpoint="Breakpoint.Xs">
+            <MudText Typo="Typo.subtitle2">@CalculateDisplayName(context)</MudText>
+        </MudHidden>
         <MudButton Class="ma-4" Variant="Variant.Outlined" Color="Color.Secondary" OnClick="BeginLogOut">Log out</MudButton>
     </Authorized>
     <NotAuthorized>
@@ -12,7 +14,24 @@
 </AuthorizeView>
 
 @code {
-    public void BeginLogOut()
+    private string CalculateDisplayName(AuthenticationState authState)
+    {
+        string fullName = authState.User.Identity?.Name ?? "Guest";
+        if (fullName.Length < 16)
+        {
+            return $"Hello, {fullName}!";
+        }
+
+        int emailEnd = fullName.IndexOf("@");
+        if (0 < emailEnd && emailEnd <= 16)
+        {
+            return $"Hello, {fullName.Substring(0, emailEnd)}!";
+        }
+
+        return $"Hello, {fullName.Substring(0, 16)}!";
+    }
+
+    private void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");
     }
