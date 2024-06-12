@@ -7,8 +7,8 @@ namespace MVSRA.Shared.EFModels;
 public class HomePagePhoto
 {
     [Key]
-    public Guid PhotoGuid { get; set; }
-    [ForeignKey(nameof(PhotoGuid))]
+    public Guid PhotosId { get; set; }
+    [ForeignKey(nameof(PhotosId))]
     public virtual Photo Photo { get; set; } = null!;
 
     public HomePagePhoto()

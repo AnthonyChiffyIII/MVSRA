@@ -10,7 +10,7 @@ public class HotInfo
     public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
-    [StringLength(200)]
+    [StringLength(500)]
     public string News { get; set; }
 
     [Required]
