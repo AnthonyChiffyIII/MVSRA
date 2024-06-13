@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<PhotoRepository>();
+builder.Services.AddScoped<MeetingRepository>();
 builder.Services.AddSwaggerGen();
 
 // Add Database

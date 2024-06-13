@@ -55,7 +55,7 @@ public class PhotoRepository(HttpClient httpClient) : IPhotoRepository
 
     public async Task<List<Photo>> QueryPhotos(string searchString, TableState state)
     {
-        QueryPhotosContent queryPhotoContent = new(searchString, state);
+        QueryTableState queryPhotoContent = new(searchString, state);
         string json = JsonSerializer.Serialize(queryPhotoContent, DefaultSerializer.Options);
         StringContent content = new(json, Encoding.UTF8, "application/json");
 

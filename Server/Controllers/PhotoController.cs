@@ -30,7 +30,7 @@ public class PhotoController(PhotoRepository photoRepository) : Controller
     }
 
     [HttpPost("Query")]
-    public async Task<List<Photo>> QueryPhotos(QueryPhotosContent queryPhotosContent)
+    public async Task<List<Photo>> QueryPhotos(QueryTableState queryPhotosContent)
     {
         return await _photoRepository.QueryPhotos(queryPhotosContent.SearchParameter, queryPhotosContent.State);
     }

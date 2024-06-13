@@ -2,12 +2,12 @@
 
 namespace MVSRA.Shared.Models;
 
-public class QueryPhotosContent
+public class QueryTableState
 {
     public string SearchParameter { get; set; } = string.Empty;
     public TableState State { get; set; } = null!;
 
-    public QueryPhotosContent(string? searchParameter, TableState state)
+    public QueryTableState(string? searchParameter, TableState state)
     {
         SearchParameter = searchParameter ?? string.Empty;
         State = state;

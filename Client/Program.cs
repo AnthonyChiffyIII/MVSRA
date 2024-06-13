@@ -10,7 +10,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // Add Services
 builder.Services.AddMudServices();
-builder.Services.AddHttpClient<PhotoRepository>(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+builder.Services.AddHttpClient(string.Empty, x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+builder.Services.AddSingleton<PhotoRepository>();
+builder.Services.AddSingleton<MeetingRepository>();
 
 
 // Add Authorization
