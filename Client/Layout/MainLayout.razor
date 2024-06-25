@@ -1,5 +1,6 @@
 ﻿@using MVSRA.Client.Layout
 @using MudBlazor
+
 @inherits LayoutComponentBase
 
 <MudThemeProvider Theme="@MVSRATheme" />
@@ -13,6 +14,7 @@
     </MudDrawer>
     <MudMainContent>
         <MudPaper Width="100%" Height="100%" MinHeight="500px">
+            <WelcomeBanner />
             <MudContainer MaxWidth="MaxWidth.Medium">
                 @Body
             </MudContainer>

@@ -4,20 +4,29 @@
 
 <MudPaper Elevation="0" Width="100%">
     <MudStack Row="true">
-        <MudPaper Elevation="0" Width="50%">
-            <MudStack AlignItems="AlignItems.Center">
-                <MudImage Src="icon-250.png" Style="width: 50%;" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" />
-                <MudText Align="Align.Center" Typo="Typo.h6">Mohawk Valley Soccer Referee Association</MudText>
-                <MudText Align="Align.Center" Typo="Typo.h6"><b>(MVSRA)</b></MudText>
-            </MudStack>
-        </MudPaper>
-        <MudPaper Elevation="0" Width="50%">
-            <ImageCarousal />
-        </MudPaper>
+        <MudHidden Breakpoint="Breakpoint.Xs">
+            <MudPaper Elevation="0" Width="50%">
+                <MudStack AlignItems="AlignItems.Center">
+                    <MudImage Src="icon-250.png" Style="width: 50%;" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" />
+                    <MudText Align="Align.Center" Typo="Typo.h6">Mohawk Valley Soccer Referee Association</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h6"><b>(MVSRA)</b></MudText>
+                </MudStack>
+            </MudPaper>
+            <MudPaper Elevation="0" Width="50%">
+                <ImageCarousal />
+            </MudPaper>
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.SmAndUp">
+            <MudPaper Elevation="0" Width="100%">
+                <MudText Align="Align.Center" Typo="Typo.h6">Mohawk Valley Soccer</MudText>
+                <MudText Align="Align.Center" Typo="Typo.h6">Referee Association</MudText>
+                <ImageCarousal />
+            </MudPaper>
+        </MudHidden>
     </MudStack>
 
     <NextMeeting />
-    <br/>
+    <br />
 
     <MudText Typo="Typo.h6">Officers:</MudText>
     <MudText Typo="Typo.body1"><b>President:</b> Kit Hutchinson</MudText>
@@ -25,7 +34,7 @@
     <MudText Typo="Typo.body1"><b>Secretary:</b> Anthony Chiffy</MudText>
     <MudText Typo="Typo.body1"><b>Treasurer:</b> Bjorn Solli</MudText>
     <MudText Typo="Typo.body1"><b>Assignor:</b> Kevin Waters</MudText>
-    <br/>
+    <br />
 
     <MudContainer Style="background-color: lightgray;">
         <MudText Typo="Typo.h4" Color="Color.Warning">Unfinished section</MudText>
@@ -34,5 +43,5 @@
             <li>Local Dues!!!</li>
         </ul>
     </MudContainer>
-    <br/>
+    <br />
 </MudPaper>

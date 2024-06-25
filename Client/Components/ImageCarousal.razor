@@ -4,14 +4,17 @@
 
 @inject PhotoRepository PhotoRepo
 
-<MudCarousel Style="width: 100%; height: 100%;" @ref="_carousel" @bind-SelectedIndex="@selectedIndex" ItemsSource="@_images"
-             ShowArrows="true" EnableSwipeGesture="true"
-             ShowBullets="false" BulletsColor="@Color"
-             AutoCycle="true" AutoCycleTime="TimeSpan.FromSeconds(4)">
-    <ItemTemplate>
-        <MudImage ObjectFit="ObjectFit.Contain" Src="@GetImageData(context)" Style="width: 100%; height: 100%" />
-    </ItemTemplate>
-</MudCarousel>
+@if (_images.Count > 0)
+{
+    <MudCarousel Style="width: 100%; height: 100%;" @ref="_carousel" ItemsSource="@_images"
+                 ShowArrows="true" EnableSwipeGesture="true"
+                 ShowBullets="false" BulletsColor="@Color"
+                 AutoCycle="true" AutoCycleTime="TimeSpan.FromSeconds(4)">
+        <ItemTemplate>
+            <MudImage ObjectFit="ObjectFit.Contain" Src="@GetImageData(context)" Style="width: 100%; height: 100%" />
+        </ItemTemplate>
+    </MudCarousel>
+}
 
 @code {
     [Parameter]
@@ -20,7 +23,6 @@
     private List<Photo> _images = new();
 
     private MudCarousel<Photo> _carousel = null!;
-    private int selectedIndex { get; set; } = 2;
 
     protected override async Task OnInitializedAsync()
     {
