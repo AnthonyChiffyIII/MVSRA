@@ -3,8 +3,8 @@
 <PageTitle>Home</PageTitle>
 
 <MudPaper Elevation="0" Width="100%">
-    <MudStack Row="true">
-        <MudHidden Breakpoint="Breakpoint.Xs">
+    <MudHidden Breakpoint="Breakpoint.Xs">
+        <MudStack Row="true">
             <MudPaper Elevation="0" Width="50%">
                 <MudStack AlignItems="AlignItems.Center">
                     <MudImage Src="icon-250.png" Style="width: 50%;" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" />
@@ -15,16 +15,17 @@
             <MudPaper Elevation="0" Width="50%">
                 <ImageCarousal />
             </MudPaper>
-        </MudHidden>
-        <MudHidden Breakpoint="Breakpoint.SmAndUp">
-            <MudPaper Elevation="0" Width="100%">
-                <MudText Align="Align.Center" Typo="Typo.h6">Mohawk Valley Soccer</MudText>
-                <MudText Align="Align.Center" Typo="Typo.h6">Referee Association</MudText>
+        </MudStack>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.SmAndUp">
+        <MudPaper Elevation="0" Width="100%">
+            <MudText Align="Align.Center" Typo="Typo.h6">Mohawk Valley Soccer</MudText>
+            <MudText Align="Align.Center" Typo="Typo.h6">Referee Association</MudText>
+            <MudPaper Elevation="0" Height="250px">
                 <ImageCarousal />
             </MudPaper>
-        </MudHidden>
-    </MudStack>
-
+        </MudPaper>
+    </MudHidden>
     <NextMeeting />
     <br />
 

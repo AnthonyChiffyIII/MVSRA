@@ -18,47 +18,75 @@ namespace MVSRA.Client.Modules
         #region PublicMethods
         public async Task SetValue(string key, string value, int? days = null)
         {
-            var curExp = (days != null) ? (days > 0 ? DateToUTC(days.Value) : "") : expirationDate;
-            await SetCookie($"{key}={value}; expires={curExp}; path=/");
+            try
+            {
+                var curExp = (days != null) ? (days > 0 ? DateToUTC(days.Value) : "") : expirationDate;
+                await SetCookie($"{key}={value}; expires={curExp}; path=/");
+            }
+            catch
+            {
+                return;
+            }
         }
 
         public async Task<string> GetValue(string key, string def = "")
         {
-            var cValue = await GetCookie();
-            if (string.IsNullOrEmpty(cValue)) return def;
+            try
+            {
+                var cValue = await GetCookie();
+                if (string.IsNullOrEmpty(cValue)) return def;
 
-            var vals = cValue.Split(';');
-            foreach (var val in vals)
-                if (!string.IsNullOrEmpty(val) && val.IndexOf('=') > 0)
-                    if (val[..val.IndexOf('=')].Trim().Equals(key, StringComparison.OrdinalIgnoreCase))
-                        return val[(val.IndexOf('=') + 1)..];
-            return def;
+                var vals = cValue.Split(';');
+                foreach (var val in vals)
+                    if (!string.IsNullOrEmpty(val) && val.IndexOf('=') > 0)
+                        if (val[..val.IndexOf('=')].Trim().Equals(key, StringComparison.OrdinalIgnoreCase))
+                            return val[(val.IndexOf('=') + 1)..];
+                return def;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public async Task<bool> IsNewUser()
         {
-            string disableCookies = await GetValue(DISABLE_COOKIES);
-            if (disableCookies == "true")
+            try
             {
-                cookiesDisabled = true;
-                return false;
-            }
+                string disableCookies = await GetValue(DISABLE_COOKIES);
+                if (disableCookies == "true")
+                {
+                    cookiesDisabled = true;
+                    return false;
+                }
 
-            string lastVisitCookie = await GetValue(LAST_VISIT);
-            return string.IsNullOrWhiteSpace(lastVisitCookie);
+                string lastVisitCookie = await GetValue(LAST_VISIT);
+                return string.IsNullOrWhiteSpace(lastVisitCookie);
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         public async Task SetNewUser(bool disableCookies = false)
         {
-            if (disableCookies == true)
+            try
             {
-                await SetValue(DISABLE_COOKIES, "true");
+                if (disableCookies == true)
+                {
+                    await SetValue(DISABLE_COOKIES, "true");
 
-                cookiesDisabled = true;
+                    cookiesDisabled = true;
+                    return;
+                }
+
+                await SetValue(LAST_VISIT, DateTime.Now.ToShortDateString());
+            }
+            catch
+            {
                 return;
             }
-
-            await SetValue(LAST_VISIT, DateTime.Now.ToShortDateString());
         }
         #endregion
 
