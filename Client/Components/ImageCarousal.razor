@@ -4,9 +4,9 @@
 
 @inject PhotoRepository PhotoRepo
 
-@if (_images.Count > 0)
+@if (Images.Count > 0)
 {
-    <MudCarousel Style="width: 100%; height: 100%;" @ref="_carousel" ItemsSource="@_images"
+    <MudCarousel Style="width: 100%; height: 100%;" @ref="_carousel" ItemsSource="@Images"
                  ShowArrows="true" EnableSwipeGesture="true"
                  ShowBullets="false" BulletsColor="@Color"
                  AutoCycle="true" AutoCycleTime="TimeSpan.FromSeconds(4)">
@@ -20,13 +20,18 @@
     [Parameter]
     public MudBlazor.Color Color { get; set; }
 
-    private List<Photo> _images = new();
+    [Parameter]
+    public List<Photo> Images { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<List<Photo>> ImagesChanged { get; set; }
 
     private MudCarousel<Photo> _carousel = null!;
 
     protected override async Task OnInitializedAsync()
     {
-        _images = await PhotoRepo.GetPhotos(5);
+        Images = await PhotoRepo.GetPhotos(5);
+        await ImagesChanged.InvokeAsync(Images);
     }
 
     private string GetImageData(Photo photo)

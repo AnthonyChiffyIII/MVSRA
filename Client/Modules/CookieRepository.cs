@@ -1,5 +1,7 @@
-﻿using Microsoft.JSInterop;
+﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.JSInterop;
 using MVSRA.Shared.Modules;
+using System.Text.Json;
 
 namespace MVSRA.Client.Modules
 {
@@ -87,6 +89,21 @@ namespace MVSRA.Client.Modules
             {
                 return;
             }
+        }
+
+        public async Task SetCookieObject<T>(string key, T cookieObject) where T : class
+        {
+            string jsonString = JsonSerializer.Serialize<T>(cookieObject);
+            await SetValue(key, jsonString);
+        }
+
+        public async Task<T?> GetCookieObject<T>(string key) where T : class
+        {
+            string jsonString = await GetValue(key);
+            if (string.IsNullOrWhiteSpace(jsonString)) return null;
+
+            T? cookieObject = JsonSerializer.Deserialize<T>(jsonString);
+            return cookieObject;
         }
         #endregion
 

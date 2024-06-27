@@ -1,27 +1,7 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                <Authorizing>
-                    <MudPaper Elevation="0" Height="500px">
-                        <MudText Typo="Typo.h5">Determining session state, please wait...</MudText>
-                    </MudPaper>
-                </Authorizing>
-                <NotAuthorized>
-                    <MudPaper Elevation="0" Height="500px">
-                        @if (context.User.Identity?.IsAuthenticated != true)
-                        {
-                            <RedirectToLogin />
-                        }
-                        else
-                        {
-                            <MudPaper Elevation="0" Height="500px">
-                                <MudText role="alert" Typo="Typo.h5">You are not authorized to access this resource.</MudText>
-                            </MudPaper>
-                        }
-                    </MudPaper>
-                </NotAuthorized>
-            </AuthorizeRouteView>
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>
