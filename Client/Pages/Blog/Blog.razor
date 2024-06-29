@@ -1,0 +1,45 @@
+﻿@page "/blog"
+
+@using BlazingApple.Forums.Components.Forums
+@using BlazingApple.Forums.Shared.Models.Communities
+@using BlazingApple.Forums.Shared.Models.Forums
+
+<PageTitle>Blog</PageTitle>
+
+<ForumList Forums="@_forums" />
+
+@code {
+    private List<IForum>? _forums;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _forums = new List<IForum>
+        {
+            GetForum("MVSRA Blog", "Coming soon..."),
+            GetForum("Hot Info", "Coming soon..."),
+            GetForum("Uniforms", "Coming soon..."),
+            GetForum("Rules", "Coming soon..."),
+            GetForum("Resources", "Coming soon..."),
+            GetForum("Store", "Coming soon...")
+        };
+    }
+
+    private static IForum GetForum(string title, string description)
+    {
+        string slug = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        slug = slug[..^2]
+            .Replace('/', '-')
+            .Replace('+', '_');
+
+        return new Forum()
+            {
+                Id = Guid.NewGuid(),
+                Slug = slug,
+                Title = title,
+                Description = description,
+                IsPublic = true,
+                Communities = new List<IForumCommunity>(),
+            };
+    }
+}
