@@ -60,7 +60,7 @@
                 Content = "I like eggs",
                 UserId = "abc",
                 DatabaseCreationTimestamp = DateTime.Now.AddDays(-1 * Random.Shared.Next(90)),
-                Community = Forums.GetCommunity(forumSlug, "Levels of heat", "Discussing what it means to be 'Blazing'."),
+                Community = GetCommunity(forumSlug, "Levels of heat", "Discussing what it means to be 'Blazing'."),
             };
     }
 
@@ -83,5 +83,25 @@
         }
 
         return reactions;
+    }
+
+    public static IForumCommunity GetCommunity(string forumSlug, string title, string description)
+    {
+        string slug = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        slug = slug[..^2]
+            .Replace('/', '-')
+            .Replace('+', '_');
+        slug = $"{forumSlug}/{slug}";
+
+        return new ForumCommunity()
+            {
+                Id = Guid.NewGuid(),
+                Slug = slug,
+                Title = title,
+                Description = description,
+                CreatingUserId = "abc",
+                DatabaseCreationTimestamp = DateTime.Now.AddDays(-1 * Random.Shared.Next(0, 10000)),
+                Posts = new List<IPost>(),
+            };
     }
 }
