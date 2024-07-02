@@ -4,6 +4,19 @@
 @using BlazingApple.Forums.Shared.Models.Communities
 @using BlazingApple.Forums.Shared.Models.Forums
 
+<head>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="_content/BlazingApple.Components/css/blazingAppleComponents.css" rel="stylesheet" />
+    <link href="_content/BlazingApple.Components/BlazingApple.Components.bundle.scp.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="_content/BlazingApple.Components/scripts/blazingAppleComponents.js?cacheBust={version}"> </script>
+    <script src="https://kit.fontawesome.com/b7d59bd007.js" crossorigin="anonymous"> </script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"> </script>
+    <script src="_content/Blazored.TextEditor/quill-blot-formatter.min.js"> </script>
+    <script src="_content/Blazored.TextEditor/Blazored-BlazorQuill.js"> </script>
+</body>
+
 <PageTitle>Blog</PageTitle>
 
 <ForumList Forums="@_forums" />
