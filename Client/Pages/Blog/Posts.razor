@@ -14,27 +14,29 @@
 @using Microsoft.AspNetCore.Components;
 @using Post = BlazingApple.Forums.Shared.Models.Posts.Post
 
-@if (_post is not null)
-{
-    <PostDetails Post="_post" VoteStyle="_voteStyle" CommentStyle="_commentStyle">
-        <p>This is a posts page. This shows the actual post, and comments from community's members.</p>
-        <p>
-            Options:
-            <div>
-                <label>Voting style</label>
-                <PillRadioGroup AdditionalClasses="small" Name="voteStyle" @bind-Value="_voteStyle" Options="@(Enum.GetValues<VoteStyle>())">
-                    <TemplatedContent Context="voteStyle">@voteStyle.GetEnumDisplayName()</TemplatedContent>
-                </PillRadioGroup>
-            </div>
-            <div>
-                <label>Comment style</label>
-                <PillRadioGroup AdditionalClasses="small" Name="commentStyle" @bind-Value="_commentStyle" Options="@(Enum.GetValues<CommentStyle>())">
-                    <TemplatedContent Context="commentStyle">@commentStyle.GetEnumDisplayName()</TemplatedContent>
-                </PillRadioGroup>
-            </div>
-        </p>
-    </PostDetails>
-}
+<BlazingAppleProvider>
+    @if (_post is not null)
+    {
+        <PostDetails Post="_post" VoteStyle="_voteStyle" CommentStyle="_commentStyle">
+            <p>This is a posts page. This shows the actual post, and comments from community's members.</p>
+            <p>
+                Options:
+                <div>
+                    <label>Voting style</label>
+                    <PillRadioGroup AdditionalClasses="small" Name="voteStyle" @bind-Value="_voteStyle" Options="@(Enum.GetValues<VoteStyle>())">
+                        <TemplatedContent Context="voteStyle">@voteStyle.GetEnumDisplayName()</TemplatedContent>
+                    </PillRadioGroup>
+                </div>
+                <div>
+                    <label>Comment style</label>
+                    <PillRadioGroup AdditionalClasses="small" Name="commentStyle" @bind-Value="_commentStyle" Options="@(Enum.GetValues<CommentStyle>())">
+                        <TemplatedContent Context="commentStyle">@commentStyle.GetEnumDisplayName()</TemplatedContent>
+                    </PillRadioGroup>
+                </div>
+            </p>
+        </PostDetails>
+    }
+</BlazingAppleProvider>
 
 @code {
     private IPost? _post;

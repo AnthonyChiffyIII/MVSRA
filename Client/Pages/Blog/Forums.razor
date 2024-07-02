@@ -9,63 +9,65 @@
 
 <PageTitle>Blog</PageTitle>
 
-@if (_forum is not null)
-{
-    <ForumDetails Forum="_forum" Communities="_forum.Communities"></ForumDetails>
-}
+<BlazingAppleProvider>
+    @if (_forum is not null)
+    {
+        <ForumDetails Forum="_forum" Communities="_forum.Communities"></ForumDetails>
+    }
+</BlazingAppleProvider>
 
 @code {
-	#region Parameters
+    #region Parameters
     [Parameter, EditorRequired]
     public string Slug { get; set; } = null!;
 
-	[Parameter]
-	public Guid Id { get; set; }
-	#endregion
+    [Parameter]
+    public Guid Id { get; set; }
+    #endregion
 
-	#region Fields
+    #region Fields
     private IForum? _forum;
-	#endregion
+    #endregion
 
-	#region LifeCycleMethods
-	protected override async Task OnInitializedAsync()
-	{
-		await base.OnInitializedAsync();
-		_forum = new ForumModel()
-			{
-				Id = Id,
-				Slug = Slug,
-				Title = "BlazingApple",
-				Description = "Forum for discussion of BlazingApple topics.",
-				IsPublic = true,
-				Members = null,
-				Communities = new List<IForumCommunity>(),
-			};
+    #region LifeCycleMethods
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _forum = new ForumModel()
+            {
+                Id = Id,
+                Slug = Slug,
+                Title = "BlazingApple",
+                Description = "Forum for discussion of BlazingApple topics.",
+                IsPublic = true,
+                Members = null,
+                Communities = new List<IForumCommunity>(),
+            };
 
-		_forum.Communities!.Add(GetCommunity(_forum.Slug, "Levels of heat", "Discussing what it means to be 'Blazing'."));
-		_forum.Communities!.Add(GetCommunity(_forum.Slug, "Best hot sauces", "How to evaluate and decide the best sauces."));
-	}
-	#endregion
+        _forum.Communities!.Add(GetCommunity(_forum.Slug, "Levels of heat", "Discussing what it means to be 'Blazing'."));
+        _forum.Communities!.Add(GetCommunity(_forum.Slug, "Best hot sauces", "How to evaluate and decide the best sauces."));
+    }
+    #endregion
 
-	#region Methods
-	public static IForumCommunity GetCommunity(string forumSlug, string title, string description)
-	{
-		string slug = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-		slug = slug[..^2]
-			.Replace('/', '-')
-			.Replace('+', '_');
-		slug = $"{forumSlug}/{slug}";
+    #region Methods
+    public static IForumCommunity GetCommunity(string forumSlug, string title, string description)
+    {
+        string slug = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        slug = slug[..^2]
+            .Replace('/', '-')
+            .Replace('+', '_');
+        slug = $"{forumSlug}/{slug}";
 
-		return new ForumCommunity()
-			{
-				Id = Guid.NewGuid(),
-				Slug = slug,
-				Title = title,
-				Description = description,
-				CreatingUserId = "abc",
-				DatabaseCreationTimestamp = DateTime.Now.AddDays(-1 * Random.Shared.Next(0, 10000)),
-				Posts = new List<IPost>(),
-			};
-	}
-	#endregion
+        return new ForumCommunity()
+            {
+                Id = Guid.NewGuid(),
+                Slug = slug,
+                Title = title,
+                Description = description,
+                CreatingUserId = "abc",
+                DatabaseCreationTimestamp = DateTime.Now.AddDays(-1 * Random.Shared.Next(0, 10000)),
+                Posts = new List<IPost>(),
+            };
+    }
+    #endregion
 }

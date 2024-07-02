@@ -6,9 +6,9 @@
 
 <PageTitle>Blog</PageTitle>
 
-<div class="Blog">
-<ForumList Forums="@_forums" />
-</div>
+<BlazingAppleProvider>
+    <ForumList Forums="@_forums" />
+</BlazingAppleProvider>
 
 @code {
     private List<IForum>? _forums;
