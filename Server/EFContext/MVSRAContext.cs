@@ -14,6 +14,10 @@ public class MVSRAContext(DbContextOptions<MVSRAContext> options) : DbContext(op
     public DbSet<Photo> Photos { get; set; }
     public DbSet<HomePagePhoto> HomePagePhotos { get; set; }
 
+    public DbSet<BlogCommunity> BlogCommunities { get; set; }
+    public DbSet<BlogPost> BlogPosts { get; set; }
+    public DbSet<BlogComment> BlogComments { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("MVSRA");

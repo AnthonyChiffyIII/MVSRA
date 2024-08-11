@@ -9,7 +9,11 @@
 @using BlazingApple.Forums.Shared.Models.Base;
 @using BlazingApple.Forums.Shared.Models.Communities;
 @using BlazingApple.Forums.Shared.Models.Posts;
+@using MVSRA.Client.Modules
+@using MVSRA.Shared.Models
 @using Microsoft.AspNetCore.Components;
+
+@inject BlogRepository BlogRepo
 
 <BlazingAppleProvider>
     @if (_community is not null)
@@ -38,35 +42,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-        _community = new ForumCommunity()
-            {
-                Title = "Blazing Heat",
-                Slug = Slug,
-                DatabaseCreationTimestamp = DateTime.UtcNow.AddDays(Random.Shared.Next(0, 1000)),
-                CreatingUserId = "abc",
-                Description = "All about hot sauce",
-                ForumId = Guid.NewGuid(),
-                Posts = new List<IPost>()
-            };
-
-        _community.Posts!.Add(GetPost("Best Sauces from Each Country", "I love them all"));
-        _community.Posts!.Add(GetPost("Best Sauces from Each City", "Louisiana does it best"));
-        _community.Posts!.Add(GetPost("How to recover your tongue from a sauce burn", "hot hot hot"));
-    }
-
-    private IPost GetPost(string title, string content)
-    {
-        string slug = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-
-        return new Post()
-            {
-                Id = Guid.NewGuid(),
-                Slug = slug,
-                Title = title,
-                Content = content,
-                UserId = "abc",
-                Reactions = Posts.GetReactions(),
-            };
+        _community = await BlogRepo.GetCommunity(Constants.DEFAULT_COMMUNITY);
     }
 }

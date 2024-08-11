@@ -11,8 +11,11 @@
 @using BlazingApple.Forums.Shared.Models.Communities;
 @using BlazingApple.Forums.Shared.Models.Posts;
 @using BlazingApple.Forums.Shared.Posts.Comments
+@using MVSRA.Client.Modules
 @using Microsoft.AspNetCore.Components;
 @using Post = BlazingApple.Forums.Shared.Models.Posts.Post
+
+@inject BlogRepository BlogRepo
 
 <BlazingAppleProvider>
     @if (_post is not null)
@@ -48,60 +51,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-        string forumSlug = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-        Guid postId = Guid.NewGuid();
-
-        _post = new Post
-            {
-                Id = postId,
-                Slug = Slug,
-                Title = "Hello word",
-                Content = "I like eggs",
-                UserId = "abc",
-                DatabaseCreationTimestamp = DateTime.Now.AddDays(-1 * Random.Shared.Next(90)),
-                Community = GetCommunity(forumSlug, "Levels of heat", "Discussing what it means to be 'Blazing'."),
-            };
-    }
-
-    public static List<IPostReaction> GetReactions()
-    {
-        List<IPostReaction> reactions = new();
-        int reactionCount = Random.Shared.Next(0, 50);
-        int reactionOptions = Enum.GetValues<ReactionType>().Length;
-        for (int i = 0; i < reactionCount; i++)
-        {
-            IPostReaction reaction = new PostReaction()
-                {
-                    Type = Enum.GetValues<ReactionType>()[Random.Shared.Next(0, reactionOptions - 1)],
-                    DatabaseCreationTimestamp = DateTime.Now.AddDays(-12),
-                    UserId = "abc",
-                    PostId = Guid.NewGuid(),
-                };
-
-            reactions.Add(reaction);
-        }
-
-        return reactions;
-    }
-
-    public static IForumCommunity GetCommunity(string forumSlug, string title, string description)
-    {
-        string slug = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-        slug = slug[..^2]
-            .Replace('/', '-')
-            .Replace('+', '_');
-        slug = $"{forumSlug}/{slug}";
-
-        return new ForumCommunity()
-            {
-                Id = Guid.NewGuid(),
-                Slug = slug,
-                Title = title,
-                Description = description,
-                CreatingUserId = "abc",
-                DatabaseCreationTimestamp = DateTime.Now.AddDays(-1 * Random.Shared.Next(0, 10000)),
-                Posts = new List<IPost>(),
-            };
+        _post = await BlogRepo.GetPost(Guid.NewGuid());
     }
 }

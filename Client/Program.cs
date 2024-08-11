@@ -18,6 +18,7 @@ builder.Services.AddFakeForumServices();
 builder.Services.AddSingleton<CookieRepository>();
 builder.Services.AddSingleton<PhotoRepository>();
 builder.Services.AddSingleton<MeetingRepository>();
+builder.Services.AddSingleton<BlogRepository>();
 
 
 // Add Authorization
