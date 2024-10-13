@@ -133,6 +133,7 @@
     private async Task<TableData<Photo>> ServerReload(TableState state)
     {
         List<Photo> data = await PhotoRepo.QueryPhotos(searchString, state);
+        totalItems = data.Count;
         return new TableData<Photo>() { TotalItems = totalItems, Items = data };
     }
 
