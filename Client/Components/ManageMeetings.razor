@@ -5,7 +5,7 @@
 @inject MeetingRepository MeetingRepo
 
 <MudStack Style="width: 100%">
-    <MudTable ServerData="@(new Func<TableState, Task<TableData<Meeting>>>(ServerReload))"
+    <MudTable ServerData="ServerReload"
               Dense="true" Hover="true" @ref="table">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Meeting Dates</MudText>
@@ -50,7 +50,7 @@
     private int totalItems;
 
     #region AsyncMethods
-    private async Task<TableData<Meeting>> ServerReload(TableState state)
+    private async Task<TableData<Meeting>> ServerReload(TableState state, CancellationToken token)
     {
         int currentYear = DateTime.Now.Year;
         DateOnly lastYear = new DateOnly(currentYear - 1, 1, 1);

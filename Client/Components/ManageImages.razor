@@ -14,7 +14,7 @@
                    @ondragenter="@SetDragClass"
                    @ondragleave="@ClearDragClass"
                    @ondragend="@ClearDragClass">
-        <ButtonTemplate>
+        <ActivatorContent>
             <MudPaper Height="300px"
                       Outlined="true"
                       Class="@_dragClass">
@@ -23,12 +23,12 @@
                 </MudText>
                 @foreach (var file in _fileNames)
                 {
-                    <MudChip Color="Color.Dark" Text="@file" />
+                    <MudChip T="string" Color="Color.Dark" Text="@file" />
                 }
             </MudPaper>
-        </ButtonTemplate>
+        </ActivatorContent>
     </MudFileUpload>
-    <MudTable ServerData="@(new Func<TableState, Task<TableData<Photo>>>(ServerReload))"
+    <MudTable T="Photo" ServerData="ServerReload"
               Dense="true" Hover="true" @ref="table">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Photo Gallery</MudText>
@@ -130,7 +130,7 @@
         }
     }
 
-    private async Task<TableData<Photo>> ServerReload(TableState state)
+    private async Task<TableData<Photo>> ServerReload(TableState state, CancellationToken token)
     {
         List<Photo> data = await PhotoRepo.QueryPhotos(searchString, state);
         totalItems = data.Count;
