@@ -1,0 +1,69 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<MudPaper Elevation="0" Width="100%">
+    <MudHidden Breakpoint="Breakpoint.Xs">
+        <MudStack Row="true">
+            <MudPaper Elevation="0" Width="50%">
+                <MudStack AlignItems="AlignItems.Center">
+                    <MudImage Src="icon-250.png" Style="width: 50%;" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" />
+                    <MudText Align="Align.Center" Typo="Typo.h6">Mohawk Valley Soccer Referee Association</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h6"><b>(MVSRA)</b></MudText>
+                </MudStack>
+            </MudPaper>
+            <MudPaper Elevation="0" Width="50%">
+                <ImageCarousal />
+            </MudPaper>
+        </MudStack>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.SmAndUp">
+        <MudPaper Elevation="0" Width="100%">
+            <MudText Align="Align.Center" Typo="Typo.h6">Mohawk Valley Soccer</MudText>
+            <MudText Align="Align.Center" Typo="Typo.h6">Referee Association</MudText>
+            <MudPaper Elevation="0" Height="250px">
+                <ImageCarousal />
+            </MudPaper>
+        </MudPaper>
+    </MudHidden>
+    <NextMeeting />
+    <br />
+
+    <MudText Typo="Typo.h6">Officers:</MudText>
+    <MudText Typo="Typo.body1"><b>President:</b> Kit Hutchinson</MudText>
+    <MudText Typo="Typo.body1"><b>Vice President:</b> Mike Popowski</MudText>
+    <MudText Typo="Typo.body1"><b>Secretary:</b> Anthony Chiffy</MudText>
+    <MudText Typo="Typo.body1"><b>Treasurer:</b> Bjorn Solli</MudText>
+    <MudText Typo="Typo.body1"><b>Assignor:</b> Kevin Waters</MudText>
+    <br />
+
+    <MudText Typo="Typo.h6">Dues:</MudText>
+    <style>
+        .pp-DSP7HKKLJMMEE {
+            text-align: center;
+            border: none;
+            border-radius: 1.5rem;
+            min-width: 11.625rem;
+            padding: 0 2rem;
+            height: 2.625rem;
+            font-weight: bold;
+            background-color: #FFD140;
+            color: #000000;
+            font-family: "Helvetica Neue",Arial,sans-serif;
+            font-size: 1rem;
+            line-height: 1.25rem;
+            cursor: pointer;
+        }
+    </style> 
+    <form action="https://www.paypal.com/ncp/payment/DSP7HKKLJMMEE" method="post" target="_top" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;"> 
+        <input class="pp-DSP7HKKLJMMEE" type="submit" value="Pay Online" /> 
+        <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" /> 
+        <section> Powered by 
+            <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;" />
+        </section> 
+    </form>
+    <br />
+    <br />
+
+    <EasternNewYorkWelcomeMessage />
+</MudPaper>

@@ -26,7 +26,7 @@ namespace MVSRA.Server.EFContext.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.Photo", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.Photo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

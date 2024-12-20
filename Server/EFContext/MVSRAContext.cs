@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MVSRA.Shared.EFModels;
+using MVSRA.Server.EFModels;
 
 namespace MVSRA.Server.EFContext;
 

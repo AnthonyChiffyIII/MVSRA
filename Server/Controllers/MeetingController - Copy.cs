@@ -1,7 +1,7 @@
 ﻿//using Microsoft.AspNetCore.Mvc;
 //using MVSRA.Server.Modules;
-//using MVSRA.Shared.EFModels;
-//using MVSRA.Shared.Models;
+//using MVSRA.Server.EFModels;
+//using MVSRA.Server.Models;
 
 //namespace MVSRA.Server.Controllers;
 

@@ -1,7 +1,7 @@
 ﻿//using Microsoft.EntityFrameworkCore;
 //using MVSRA.Server.EFContext;
-//using MVSRA.Shared.EFModels;
-//using MVSRA.Shared.Modules;
+//using MVSRA.Server.EFModels;
+//using MVSRA.Server.Modules;
 
 //namespace MVSRA.Server.Modules;
 
