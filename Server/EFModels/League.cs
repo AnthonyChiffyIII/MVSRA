@@ -15,13 +15,16 @@ public class League
 
     [Required]
     [StringLength(500)]
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
     [StringLength(500)]
-    public string? ScheduleURL { get; set; }
+    public string? WebsiteURL { get; set; }
 
     [StringLength(500)]
     public string? RulesURL { get; set; }
+
+    [StringLength(500)]
+    public string? IconURL { get; set; }
 
     [StringLength(200)]
     public string? Contact { get; set; }
@@ -31,10 +34,22 @@ public class League
     [StringLength(200)]
     public string UploadedBy { get; set; } = "Anonymous";
 
+    //TODO: Add payment table
+    public List<Payment> PaymentInfo { get; set; } = [];
+
+    public bool IsDisplayed { get; set; } = false;
+
     public League()
     {
         Name = string.Empty;
-        Description = string.Empty;
-        UploadedBy ??= string.Empty;
+    }
+
+    public League(string name, string website, string rule, string icon, List<Payment>? payments = null)
+    {
+        Name = name;
+        WebsiteURL = website;
+        RulesURL = rule;
+        IconURL = icon;
+        PaymentInfo = payments ?? [];
     }
 }

@@ -30,7 +30,15 @@ public class PhotoRepository(IDbContextFactory<MVSRAContext> contextFactory) : I
     {
         using MVSRAContext context = await _contextFactory.CreateDbContextAsync();
 
-        return await context.Photos.Take(take).ToListAsync();
+        Random random = new();
+        List<int> randomIndexes = [];
+        int totalPhotos = await context.Photos.CountAsync();
+        if (totalPhotos < 5)
+        {
+            return await context.Photos.ToListAsync();
+        }
+
+        return await context.Photos.OrderBy(x => Guid.NewGuid()).Take(5).ToListAsync();
     }
 
     public async Task<List<Photo>> QueryPhotos(string searchString, TableState state)

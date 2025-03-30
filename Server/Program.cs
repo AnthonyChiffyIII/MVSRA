@@ -1,7 +1,7 @@
+//using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MudBlazor.Services;
-using MVSRA.Server;
 using MVSRA.Server.EFContext;
 using MVSRA.Server.Modules;
 
@@ -13,6 +13,12 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddScoped<PhotoRepository>();
 builder.Services.AddScoped<MeetingRepository>();
+
+// Add Authorization
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//});
 
 // Add Database
 builder.Services.AddDbContextFactory<MVSRAContext>(options =>
@@ -31,11 +37,7 @@ builder.Services.AddDbContextFactory<MVSRAContext>(options =>
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
-else
+if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
