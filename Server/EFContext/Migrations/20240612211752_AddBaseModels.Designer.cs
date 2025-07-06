@@ -26,7 +26,7 @@ namespace MVSRA.Server.EFContext.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.HomePagePhoto", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.HomePagePhoto", b =>
                 {
                     b.Property<Guid>("PhotosId")
                         .HasColumnType("uniqueidentifier");
@@ -36,7 +36,7 @@ namespace MVSRA.Server.EFContext.Migrations
                     b.ToTable("PhotoGallery_HomePage", "MVSRA");
                 });
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.HotInfo", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.HotInfo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace MVSRA.Server.EFContext.Migrations
                     b.ToTable("HotInformation", "MVSRA");
                 });
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.League", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.League", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,7 +104,7 @@ namespace MVSRA.Server.EFContext.Migrations
                     b.ToTable("Leagues", "MVSRA");
                 });
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.Location", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.Location", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,7 +138,7 @@ namespace MVSRA.Server.EFContext.Migrations
                     b.ToTable("Locations", "MVSRA");
                 });
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.Meeting", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.Meeting", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -185,7 +185,7 @@ namespace MVSRA.Server.EFContext.Migrations
                     b.ToTable("Meetings", "MVSRA");
                 });
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.Officer", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.Officer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -214,7 +214,7 @@ namespace MVSRA.Server.EFContext.Migrations
                     b.ToTable("ActiveOfficers", "MVSRA");
                 });
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.Photo", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.Photo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -261,9 +261,9 @@ namespace MVSRA.Server.EFContext.Migrations
                     b.ToTable("PhotoGallery_Locations", "MVSRA");
                 });
 
-            modelBuilder.Entity("MVSRA.Shared.EFModels.HomePagePhoto", b =>
+            modelBuilder.Entity("MVSRA.Server.EFModels.HomePagePhoto", b =>
                 {
-                    b.HasOne("MVSRA.Shared.EFModels.Photo", "Photo")
+                    b.HasOne("MVSRA.Server.EFModels.Photo", "Photo")
                         .WithMany()
                         .HasForeignKey("PhotosId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -274,13 +274,13 @@ namespace MVSRA.Server.EFContext.Migrations
 
             modelBuilder.Entity("PhotoGallery_Locations", b =>
                 {
-                    b.HasOne("MVSRA.Shared.EFModels.Location", null)
+                    b.HasOne("MVSRA.Server.EFModels.Location", null)
                         .WithMany()
                         .HasForeignKey("LocationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVSRA.Shared.EFModels.Photo", null)
+                    b.HasOne("MVSRA.Server.EFModels.Photo", null)
                         .WithMany()
                         .HasForeignKey("PhotosId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,0 +1,86 @@
+﻿@using MVSRA.Server.Modules
+@using MVSRA.Server.EFModels
+
+@* @inject MeetingRepository MeetingRepo *@
+
+<div class="LeagueList">
+    <MudList T="League">
+        @foreach (League league in leagues)
+        {
+            <MudListItem>
+                <AvatarContent>
+                    <MudAvatar>
+                        <MudImage Src="@league.IconURL"/>
+                    </MudAvatar>
+                </AvatarContent>
+                <ChildContent>
+                    <MudStack Spacing="0">
+                <MudStack Row="true">
+                    <MudText Typo="Typo.h5">@league.Name</MudText>
+                    @if (league.PaymentInfo.Count > 0)
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Success" OnClick="@(() => ViewPriceTable(league))" />
+                        <MudPopover Open="league.IsDisplayed" OverflowBehavior="OverflowBehavior.FlipAlways" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+                            <MudTable Items="@league.PaymentInfo" Dense="true" Breakpoint="Breakpoint.None">
+                                <HeaderContent>
+                                    <MudTh>Age</MudTh>
+                                    <MudTh>Year<sup>*</sup></MudTh>
+                                    <MudTh>Center</MudTh>
+                                    <MudTh>AR</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd>@(context.AgeGroup)</MudTd>
+                                    <MudTd>@(context.BirthYear)</MudTd>
+                                    <MudTd>@(context.CenterReferee)</MudTd>
+                                    <MudTd>@(context.AssistantReferee)</MudTd>
+                                </RowTemplate>
+                                <FooterContent>
+                                    <MudTd colspan="4"><sup>*</sup>start date of league</MudTd>
+                                </FooterContent>
+                            </MudTable>
+                        </MudPopover>
+                    }
+                </MudStack>
+                <MudText>Website: <MudLink Color="Color.Info" Href="@league.WebsiteURL">Website</MudLink></MudText>
+                <MudText>Rules: <MudLink Color="Color.Info" Href="@league.RulesURL">Rules</MudLink></MudText>
+            </MudStack>
+                </ChildContent>
+        </MudListItem>
+        }
+    </MudList>
+</div>
+
+@code {
+    private List<League> leagues = [];
+
+    protected override void OnInitialized()
+    {
+        List<Payment> stateCupPayment = new()
+        {
+            new(12, 90, 45),
+            new(14, 110, 55),
+            new(19, 120, 60)
+        };
+        List<Payment> elitePayment = new()
+        {
+            new(12, 60, 40),
+            new(14, 75, 45),
+            new(19, 100, 60)
+        };
+
+        // leagues = await MeetingRepo.GetMeetingRange();
+        leagues = [
+            new("DPL", "https://dpleague.org/", "https://www.canva.com/design/DAFPg3mYxj8/view", "https://dpleague.org/wp-content/uploads/2024/03/DPL-WHITE-OUTLINE.png"),
+            new("Elite Academy", "https://eliteacademyleague.com/", "https://eliteacademyleague.com/wp-content/uploads/2024/10/EA-STANDARDS-RULES-2024-2025-1.pdf", "https://eliteacademyleague.com/wp-content/uploads/2020/06/EA2.png", elitePayment),
+            new("Girls Academy", "https://girlsacademyleague.com/", $"https://www.theifab.com/documents/?documentType=laws-of-the-game&language=en&years={DateTime.Now.Year}", "https://girlsacademyleague.com/wp-content/uploads/2021/12/GA-Horizontal-Color-Black.png"),
+            new("UPSL", "https://academy.upsl.com/", $"https://www.theifab.com/documents/?documentType=laws-of-the-game&language=en&years={DateTime.Now.Year}", "https://academy.upsl.com/wp-content/uploads/sites/3/2025/01/cropped-UPSL-Academy-Division.png"),
+            new("State Cup", "https://www.enysoccer.com/eny-state-cup-usys-national-championship-series/", "https://www.enysoccer.com/rules-bylaws/", "https://www.enysoccer.com/wp-content/uploads/sites/223/2023/12/eny_state_cup_strip.jpg", stateCupPayment),
+            new("I88", "https://www.i88challenge.org/", $"https://www.theifab.com/documents/?documentType=laws-of-the-game&language=en&years={DateTime.Now.Year}", "https://system.gotsport.com/system/events/logos/000/040/583/full/I88_logo_1800x1200.jpg?1732199301")
+        ];
+    }
+
+    private void ViewPriceTable(League selectedLeague)
+    {
+        selectedLeague.IsDisplayed = !selectedLeague.IsDisplayed;
+    }
+}

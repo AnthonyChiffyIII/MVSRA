@@ -1,0 +1,8 @@
+﻿::deep .mud-table-cell {
+    border: 1px solid var(--mud-palette-table-lines);
+}
+
+::deep .mud-icon-button {
+    padding: 0rem;
+}
+
