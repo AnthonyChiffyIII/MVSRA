@@ -1,0 +1,78 @@
+﻿@using MVSRA.Server.EFModels
+@using MVSRA.Server.Modules
+
+@inject ISnackbar Snackbar
+@inject MeetingRepository MeetingRepo
+
+<MudStack Style="width: 100%">
+    <MudTable ServerData="ServerReload"
+              Dense="true" Hover="true" @ref="table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Meeting Dates</MudText>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Delete</MudTh>
+            <MudTh><MudTableSortLabel SortLabel="date_field" T="Meeting">Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="time_field" T="Meeting">Time</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="location_field" T="Meeting">Location</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="address_field" T="Meeting">Address</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="attendees_field" T="Meeting">Attendees</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="agenda_field" T="Meeting">Agenda</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="notes_field" T="Meeting">Meeting Notes</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>
+                <MudIcon Icon="@Icons.Material.Filled.Delete" Size="Size.Small" @onclick="@(() => DeleteMeeting(context))" />
+            </MudTd>
+            <MudTd DataLabel="Date">@context.Date</MudTd>
+            <MudTd DataLabel="Time">@context.Time</MudTd>
+            <MudTd DataLabel="Location">@context.Location</MudTd>
+            <MudTd DataLabel="Address">@context.Address</MudTd>
+            <MudTd DataLabel="Attendees">@context.Attendees</MudTd>
+            <MudTd DataLabel="Agenda">@context.Agenda</MudTd>
+            <MudTd DataLabel="Meeting Notes">@context.MeetingNotesURL</MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudStack>
+
+@code {
+    private MudTable<Meeting> table = null!;
+
+    private int totalItems;
+
+    #region AsyncMethods
+    private async Task<TableData<Meeting>> ServerReload(TableState state, CancellationToken token)
+    {
+        int currentYear = DateTime.Now.Year;
+        DateOnly lastYear = new DateOnly(currentYear - 1, 1, 1);
+        DateOnly nextYear = new DateOnly(currentYear + 1, 1, 1);
+        List<Meeting> data = await MeetingRepo.GetMeetingRange(lastYear, nextYear);
+        totalItems = data.Count;
+        return new TableData<Meeting>() { TotalItems = totalItems, Items = data };
+    }
+
+    private async Task DeleteMeeting(Meeting meeting)
+    {
+        try
+        {
+            await MeetingRepo.RemoveMeetings(meeting);
+            await table.ReloadServerData();
+
+            Snackbar.Add("Meeting have been deleted!");
+        }
+        catch
+        {
+            Snackbar.Add("Failed to delete meeting!", Severity.Error);
+        }
+    }
+    #endregion
+}

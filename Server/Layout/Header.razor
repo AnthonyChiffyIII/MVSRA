@@ -1,0 +1,29 @@
+﻿<div class="Header">
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudLink Href="/">
+            <MudImage Class="pa-2" Src="icon-250.png" Alt="MVSRA" ObjectFit="ObjectFit.ScaleDown" Style="height: var(--mud-appbar-height);" />
+        </MudLink>
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudText Typo="Typo.subtitle1">MVSRA</MudText>
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <MudText Typo="Typo.subtitle1">Mohawk Valley Soccer Referee Association</MudText>
+        </MudHidden>
+        <MudSpacer />
+        <LoginDisplay />
+    </MudAppBar>
+</div>
+
+@code {
+    [Parameter]
+    public bool DrawerOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> DrawerOpenChanged { get; set; }
+
+    private async Task DrawerToggle()
+    {
+        await DrawerOpenChanged.InvokeAsync(!DrawerOpen);
+    }
+}

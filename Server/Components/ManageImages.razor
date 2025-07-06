@@ -1,0 +1,168 @@
+﻿@using MVSRA.Server.EFModels
+@using MVSRA.Server.Modules
+
+@inject ISnackbar Snackbar
+@inject PhotoRepository PhotoRepo
+
+<MudStack Style="width: 100%">
+    <MudFileUpload T="IReadOnlyList<IBrowserFile>"
+                   AppendMultipleFiles
+                   OnFilesChanged="UploadOnFileSelect"
+                   Hidden="@false"
+                   InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20"
+                   InputStyle="opacity:0"
+                   @ondragenter="@SetDragClass"
+                   @ondragleave="@ClearDragClass"
+                   @ondragend="@ClearDragClass">
+        <ActivatorContent>
+            <MudPaper Height="300px"
+                      Outlined="true"
+                      Class="@_dragClass">
+                <MudText Typo="Typo.h6">
+                    Drag and drop files here or click
+                </MudText>
+                @foreach (var file in _fileNames)
+                {
+                    <MudChip T="string" Color="Color.Dark" Text="@file" />
+                }
+            </MudPaper>
+        </ActivatorContent>
+    </MudFileUpload>
+    <MudTable T="Photo" ServerData="ServerReload"
+              Dense="true" Hover="true" @ref="table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Photo Gallery</MudText>
+            <MudSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Delete</MudTh>
+            <MudTh><MudTableSortLabel SortLabel="caption_field" T="Photo">Caption</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="upload_date_field" T="Photo">Upload Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="uploader_field" T="Photo">Uploaded By</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>
+                <MudIcon Icon="@Icons.Material.Filled.Delete" Size="Size.Small" @onclick="@(() => DeleteImage(context))" />
+            </MudTd>
+            <MudTd DataLabel="Caption">@context.Caption</MudTd>
+            <MudTd DataLabel="Upload Date">@context.UploadDate</MudTd>
+            <MudTd DataLabel="Uploader">@context.UploadedBy</MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudStack>
+
+@code {
+    private const string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10";
+    private string _dragClass = DefaultDragClass;
+    private readonly List<string> _fileNames = new();
+    private readonly List<Photo> _images = new();
+
+    private MudTable<Photo> table = null!;
+
+    private int totalItems;
+    private string searchString = string.Empty;
+
+    #region AsyncMethods
+    private async Task Clear()
+    {
+        _fileNames.Clear();
+        ClearDragClass();
+        await Task.Delay(100);
+    }
+
+    private async Task UploadOnFileSelect(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            ClearDragClass();
+            IReadOnlyList<IBrowserFile> files = e.GetMultipleFiles();
+            foreach (IBrowserFile file in files)
+            {
+                _fileNames.Add(file.Name);
+
+                byte[] data = await ConvertFileToByteArray(file);
+                Photo newPhoto = new()
+                    {
+                        Caption = "This is a caption. You should see it when you hover over the image",
+                        Data = data,
+                        FileType = file.ContentType
+                    };
+                _images.Add(newPhoto);
+            }
+
+            await PhotoRepo.UploadPhotos(_images);
+            await table.ReloadServerData();
+
+            _fileNames.Clear();
+            _images.Clear();
+
+            Snackbar.Add("Images have been uploaded!");
+        }
+        catch
+        {
+            Snackbar.Add("Failed to upload images!", Severity.Error);
+        }
+    }
+
+    private async Task<byte[]> ConvertFileToByteArray(IBrowserFile file)
+    {
+        using (Stream stream = file.OpenReadStream())
+        {
+            MemoryStream memoryStream = new();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            {
+                memoryStream.Write(buffer, 0, bytesRead);
+            }
+            return memoryStream.ToArray();
+        }
+    }
+
+    private async Task<TableData<Photo>> ServerReload(TableState state, CancellationToken token)
+    {
+        List<Photo> data = await PhotoRepo.QueryPhotos(searchString, state);
+        totalItems = data.Count;
+        return new TableData<Photo>() { TotalItems = totalItems, Items = data };
+    }
+
+    private async Task DeleteImage(Photo photo)
+    {
+        try
+        {
+            await PhotoRepo.DeletePhoto(photo);
+            await table.ReloadServerData();
+
+            Snackbar.Add("Images have been deleted!");
+        }
+        catch
+        {
+            Snackbar.Add("Failed to delete images!", Severity.Error);
+        }
+    }
+    #endregion
+
+    #region Methods
+    private void SetDragClass() => _dragClass = $"{DefaultDragClass} mud-border-primary";
+
+    private void ClearDragClass() => _dragClass = DefaultDragClass;
+
+
+    private void OnSearch(string text)
+    {
+        searchString = text;
+        table.ReloadServerData();
+    }
+    #endregion
+}

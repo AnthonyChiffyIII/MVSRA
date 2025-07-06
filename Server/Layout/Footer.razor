@@ -1,0 +1,28 @@
+﻿<div class="Footer">
+    <MudContainer Fixed="true" Style="width: 100%; max-width: 100% !important; background-color: var(--mud-palette-appbar-background);">
+        <MudStack Row="true" Class="pa-8" Justify="Justify.SpaceEvenly" AlignItems="AlignItems.Start" Style="overflow: hidden;">
+            <MudHidden Breakpoint="Breakpoint.MdAndDown">
+                <MudImage Class="pa-2" Src="icon-250.png" Alt="MVSRA" ObjectFit="ObjectFit.ScaleDown" Height="200" />
+            </MudHidden>
+            <MudStack Spacing="2">
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/about">About MVSRA</MudLink>
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="https://www.ussoccer.com/history">History</MudLink>
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="/officers">Officers</MudLink>
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="mailto:ExecCmte@mvsra.org">Contact Us</MudLink>
+            </MudStack>
+            <MudStack Spacing="2">
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="@($"https://www.theifab.com/documents/?documentType=laws-of-the-game&language=en&years={DateTime.Now.Year}")">Laws Of The Game</MudLink>
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="https://www.ussoccer.com/brand-protection">Brand Protection</MudLink>
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="https://www.ussoccer.com/ussf-fan-code-of-conduct">Fan Code Of Conduct</MudLink>
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="https://www.ussoccer.com/federation-services">Federation Services</MudLink>
+                <MudLink Typo="Typo.caption" Color="Color.Secondary" Href="https://www.ussoccer.com/safeguarding/report-a-concern">Report A Concern</MudLink>
+            </MudStack>
+            <MudHidden Breakpoint="Breakpoint.Xs">
+                <MudStack Spacing="1">
+                    <MudFab Class="ma-2" Size="Size.Medium" Color="Color.Secondary" Href="https://www.facebook.com/MVSRA.org/" StartIcon="@Icons.Custom.Brands.Facebook" Label="Facebook" />
+                    <MudFab Class="ma-2" Size="Size.Medium" Color="Color.Secondary" Href="https://www.twitch.tv/masl_soccer/schedule" StartIcon="@Icons.Material.Filled.LiveTv" Label="MASL" />
+                </MudStack>
+            </MudHidden>
+        </MudStack>
+    </MudContainer>
+</div>

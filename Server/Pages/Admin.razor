@@ -1,0 +1,14 @@
+﻿@page "/admin"
+
+@attribute [Authorize]
+
+<PageTitle>Admin</PageTitle>
+
+<MudTabs Color="Color.Dark">
+    <MudTabPanel Text="Meetings">
+        <ManageMeetings />
+    </MudTabPanel>
+    <MudTabPanel Text="Images">
+        <ManageImages />
+    </MudTabPanel>
+</MudTabs>

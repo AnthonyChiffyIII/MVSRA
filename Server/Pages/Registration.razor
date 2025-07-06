@@ -1,0 +1,82 @@
+﻿@page "/registration"
+
+@using MVSRA.Server.Modules
+@using MVSRA.Server.EFModels
+
+@inject MeetingRepository MeetingRepo
+
+<PageTitle>Registration</PageTitle>
+
+<div>
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudText Typo="Typo.h2" Align="Align.Center">Become a US Soccer</MudText>
+        <MudText Typo="Typo.h2" Align="Align.Center">Referee in Eastern NY</MudText>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudText Typo="Typo.h5" Align="Align.Center">Become a US Soccer</MudText>
+        <MudText Typo="Typo.h5" Align="Align.Center">Referee in Eastern NY</MudText>
+    </MudHidden>
+
+
+    <MudStack Row="true" Wrap="Wrap.Wrap" AlignItems="AlignItems.Center" Justify="Justify.Center">
+        <MudImage Class="pa-2" Src="ENYSRA-icon-120.png" Alt="ENYSRA" ObjectFit="ObjectFit.ScaleDown" Style="max-height: 120px" />
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            @* <MudTooltip Text="Eastern New York Soccer Referee Association"> *@
+                <MudLink Typo="Typo.h3" Color="Color.Info" Href="https://enysreferee.org/how-to-become-a-referee/">ENYSRA</MudLink>
+            @* </MudTooltip> *@
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            @* <MudTooltip Text="Eastern New York Soccer Referee Association"> *@
+                <MudLink Typo="Typo.h6" Color="Color.Info" Href="https://enysreferee.org/how-to-become-a-referee/">ENYSRA</MudLink>
+            @* </MudTooltip> *@
+        </MudHidden>
+    </MudStack>
+    <br />
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudText Typo="Typo.h3">Checklist</MudText>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudText Typo="Typo.h6">Checklist</MudText>
+    </MudHidden>
+    <MudList T="string" Dense="true">
+        <MudListItem>Purchase & Complete ENY First Time Referee Course</MudListItem>
+        <MudListItem>Complete Background Check (usually ~2 weeks)</MudListItem>
+        <MudListItem>Complete @(registrationYear) Referee Quiz</MudListItem>
+        <MudListItem>Verify under Assignments a status of "Satisfactory"</MudListItem>
+        <MudListItem>Attend ENY Zoom Meeting (invite through email)</MudListItem>
+        <MudListItem>Recieve Referee Uniform Kit</MudListItem>
+        <MudListItem>Contact MVSRA Assignor</MudListItem>
+        <MudListItem>Spectate Field Training Session (contact assignor)</MudListItem>
+    </MudList>
+    <br />
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudText Typo="Typo.h3">Welcome to the Team!</MudText>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudText Typo="Typo.h6">Welcome to the Team!</MudText>
+    </MudHidden>
+    @if (nextMeeting != null && nextMeeting.Date != default)
+    {
+        <MudText Typo="Typo.body1">
+            Come to the next MVSRA meeting on @nextMeeting.Date
+        </MudText>
+    }
+    <br />
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudLink Typo="Typo.h4" Color="Color.Info" Href="https://enysreferee.org/how-to-become-a-referee/guide/">Step By Step Guide</MudLink>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudLink Typo="Typo.h6" Color="Color.Info" Href="https://enysreferee.org/how-to-become-a-referee/guide/">Step By Step Guide</MudLink>
+    </MudHidden>
+    <MudImage Class="pa-2" Src="MVSRA_Flyer.png" Alt="Flyer" ObjectFit="ObjectFit.ScaleDown" Style="max-width: 100%; max-height: 600px" />
+</div>
+
+@code {
+    int registrationYear => DateTime.Now.Month < 12 ? DateTime.Now.Year : DateTime.Now.Year + 1;
+    Meeting? nextMeeting;
+
+    protected override async Task OnInitializedAsync()
+    {
+        nextMeeting = await MeetingRepo.GetNextMeeting();
+    }
+}
