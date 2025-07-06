@@ -14,12 +14,6 @@ builder.Services.AddMudServices();
 builder.Services.AddScoped<PhotoRepository>();
 builder.Services.AddScoped<MeetingRepository>();
 
-// Add Authorization
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//});
-
 // Add Database
 builder.Services.AddDbContextFactory<MVSRAContext>(options =>
 {

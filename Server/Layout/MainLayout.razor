@@ -3,7 +3,7 @@
 
 @inherits LayoutComponentBase
 
-<MudThemeProvider Theme="@MVSRATheme" />
+<MudThemeProvider @ref="_mudThemeProvider" Theme="@MVSRATheme" IsDarkMode="@_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -24,27 +24,38 @@
 </MudLayout>
 
 @code {
-    bool _drawerOpen = false;
+    private bool _drawerOpen = false;
+    private bool _isDarkMode = false;
+    private MudThemeProvider _mudThemeProvider = null!;
 
-    MudTheme MVSRATheme = new()
+    private MudTheme MVSRATheme = new()
         {
             PaletteLight = new()
             {
                 AppbarBackground = "#000000",
                 AppbarText = "#FFCC33",
                 DrawerBackground = "#000000",
-                Primary = "#FFFBFC",
-                Secondary = "#FFCC33",
-                Background = "000000"
+                Primary = "#0052A7",
+                Secondary = "#F0CA43",
+                Background = "#FFFFFF"
             },
             PaletteDark = new()
             {
-                AppbarBackground = "#000000",
+                AppbarBackground = "#FFFFFF",
                 AppbarText = "#FFCC33",
-                DrawerBackground = "#000000",
-                Primary = "#FFFBFC",
-                Secondary = "#FFCC33",
-                Background = "000000"
+                DrawerBackground = "#FFFFFF",
+                Primary = "#0052A7",
+                Secondary = "#F0CA43",
+                Background = "#000000"
             }
         };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
 }

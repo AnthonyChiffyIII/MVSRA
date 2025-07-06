@@ -4,11 +4,75 @@
 
 <PageTitle>Admin</PageTitle>
 
-<MudTabs Color="Color.Dark">
-    <MudTabPanel Text="Meetings">
-        <ManageMeetings />
-    </MudTabPanel>
-    <MudTabPanel Text="Images">
-        <ManageImages />
-    </MudTabPanel>
-</MudTabs>
+@if (!isAdmin)
+{
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Admin Access Required</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudStack>
+                <MudTextField @bind-Value="@userName" Label="Username" Variant="Variant.Filled" />
+                <MudTextField @bind-Value="@password" Label="Password" Variant="Variant.Filled"
+                              InputType="@passwordInput" AdornmentIcon="@passwordInputIcon" OnAdornmentClick="@VisibilityToggle"
+                              Adornment="Adornment.End" AdornmentAriaLabel="Show Password" />
+            </MudStack>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@ValidatePassword">
+                Login
+            </MudButton>
+        </MudCardActions>
+    </MudCard>
+}
+else
+{
+    <MudTabs Color="Color.Dark">
+        <MudTabPanel Text="Meetings">
+            <ManageMeetings />
+        </MudTabPanel>
+        <MudTabPanel Text="Images">
+            <ManageImages />
+        </MudTabPanel>
+    </MudTabs>
+}
+
+@code {
+    private bool isAdmin = false;
+
+    private string userName { get; set; } = string.Empty;
+    private string password { get; set; } = string.Empty;
+
+    private bool isPasswordVisible { get; set; } = false;
+    private InputType passwordInput { get; set; } = InputType.Password;
+    private string passwordInputIcon { get; set; } = Icons.Material.Filled.VisibilityOff;
+
+    private void VisibilityToggle()
+    {
+        @if (isPasswordVisible)
+        {
+            isPasswordVisible = false;
+            passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            passwordInput = InputType.Password;
+        }
+        else
+        {
+            isPasswordVisible = true;
+            passwordInputIcon = Icons.Material.Filled.Visibility;
+            passwordInput = InputType.Text;
+        }
+    }
+
+    private void ValidatePassword()
+    {
+        if (
+            userName.Equals("admin", StringComparison.InvariantCultureIgnoreCase)
+            && password.Equals("kobos", StringComparison.InvariantCultureIgnoreCase)
+        )
+        {
+            isAdmin = true;
+            userName = string.Empty;
+            password = string.Empty;
+        }
+    }
+}
